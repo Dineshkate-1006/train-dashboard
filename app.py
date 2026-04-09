@@ -1,8 +1,6 @@
-!pip install streamlit pandas
 import streamlit as st
 import pandas as pd
 
-# --- Data ---
 api_response = {
     "train_name": "Rajdhani Express",
     "train_number": "12301",
@@ -15,17 +13,16 @@ api_response = {
     ],
 }
 
-# --- 1. Train Name & Number ---
+# ---  Train Name & Number ---
 st.markdown(f"# 🚆 {api_response['train_name']}")
 st.markdown(f"**Train Number:** `{api_response['train_number']}`")
 
 st.divider()
 
-# --- 2. Full Route Table ---
 st.markdown("### 📍 Full Route")
 
 df = pd.DataFrame(api_response["route"])
-df.index = df.index + 1          # start index from 1
+df.index = df.index + 1 
 df.columns = ["Station", "Arrival", "Departure"]
 
 st.dataframe(
@@ -36,14 +33,12 @@ st.dataframe(
 
 st.divider()
 
-# --- 3. Station Selector ---
 st.markdown("### 🔍 Check Station Timings")
 
 station_names = [stop["station"] for stop in api_response["route"]]
 
 selected_station = st.selectbox("Select a station:", station_names)
 
-# Look up the selected station's timings
 selected_info = next(
     stop for stop in api_response["route"] if stop["station"] == selected_station
 )
